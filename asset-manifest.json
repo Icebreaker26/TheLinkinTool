@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/thelinkintool/static/css/main.f855e6bc.css",
+    "main.js": "/thelinkintool/static/js/main.14526241.js",
+    "static/js/453.4f6a7177.chunk.js": "/thelinkintool/static/js/453.4f6a7177.chunk.js",
+    "index.html": "/thelinkintool/index.html",
+    "main.f855e6bc.css.map": "/thelinkintool/static/css/main.f855e6bc.css.map",
+    "main.14526241.js.map": "/thelinkintool/static/js/main.14526241.js.map",
+    "453.4f6a7177.chunk.js.map": "/thelinkintool/static/js/453.4f6a7177.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.14526241.js"
+  ]
+}
