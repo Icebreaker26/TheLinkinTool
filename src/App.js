@@ -731,7 +731,15 @@ var midata = {
     
       <Populares/>
       <CalcularPotenciaRecibida distancia={distanciaEnKilometros} frecuencia={frecuencia} unidadFrecuencia ={unidadFrecuencia}/>
-    </div>  
+      
+      <div className="alert alert-success" role="alert" style={{marginTop:"20px"}}>
+                          
+                          <p>¡Pronto estarán disponibles los cálculos para las atenuaciones y la documentación del software con los cálculos matemáticos utilizados…!</p>
+
+      </div>
+
+      </div>  
+
     <Footer/>
 
     </>

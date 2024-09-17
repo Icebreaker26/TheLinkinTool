@@ -33,7 +33,7 @@ const Populares = () => {
 
   return (
     <>        
-    <h3>Lugares Populares</h3>
+    <h3 className='mx-center'>Lugares Populares para hacer pruebas</h3>
     <table className="table table-dark  table-striped table-hover shadow-lg p-3 mb-5 bg-body rounded" border="1">
       <thead>
         <tr>
