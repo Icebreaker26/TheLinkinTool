@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/TheLinkinTool/static/css/main.f855e6bc.css",
-    "main.js": "/TheLinkinTool/static/js/main.2ad07175.js",
+    "main.css": "/TheLinkinTool/static/css/main.308c8de2.css",
+    "main.js": "/TheLinkinTool/static/js/main.c208aee2.js",
     "static/js/453.4f6a7177.chunk.js": "/TheLinkinTool/static/js/453.4f6a7177.chunk.js",
     "index.html": "/TheLinkinTool/index.html",
-    "main.f855e6bc.css.map": "/TheLinkinTool/static/css/main.f855e6bc.css.map",
-    "main.2ad07175.js.map": "/TheLinkinTool/static/js/main.2ad07175.js.map",
+    "main.308c8de2.css.map": "/TheLinkinTool/static/css/main.308c8de2.css.map",
+    "main.c208aee2.js.map": "/TheLinkinTool/static/js/main.c208aee2.js.map",
     "453.4f6a7177.chunk.js.map": "/TheLinkinTool/static/js/453.4f6a7177.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f855e6bc.css",
-    "static/js/main.2ad07175.js"
+    "static/css/main.308c8de2.css",
+    "static/js/main.c208aee2.js"
   ]
 }
