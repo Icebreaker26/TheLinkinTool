@@ -361,6 +361,7 @@ ChartJS.register(
 var misoptions = {
   responsive : true,
   animation : true,
+ maintainAspectRatio:false,
   plugins : {
       legend : {
           display : true
@@ -486,7 +487,7 @@ var midata = {
 
       </div>
                    
-                  <div className="input-group">
+                  <div className="input-group" id='inputs'>
                     <span class="input-group-text" id="inputGroup-sizing-sm">Latitud A</span>
                     <input 
                     
@@ -563,7 +564,7 @@ var midata = {
                     />
                     
                     </div>
-                    <div className="input-group ">
+                    <div className="input-group " id='inputs'>
 
                     <span className="input-group-text" id="inputGroup-sizing-sm">Latitud B</span>
 
@@ -639,7 +640,7 @@ var midata = {
                         className='form-control'
                     />
                     </div>
-                    <div className="input-group mb-3 ">
+                    <div className="input-group mb-3" id='inputs'>
                     <span className="input-group-text" id="inputGroup-sizing-sm">Frecuencia</span>
 
                       <input type="text" className="form-control border border-danger"
@@ -679,11 +680,11 @@ var midata = {
                             onKeyUp={ejecutar}
                           />
                       </div>
-
-      <Line data={midata} options={misoptions} reset={reset} />
-
+      <div id='grafico'>
+      <Line data={midata} options={misoptions}/>
+      </div>
       
-    <div className="input-group w-100">
+    <div className="input-group w-100" id='inputs'>
     <span className="input-group-text" id="inputGroup-sizing-sm">Distancia A</span>
       <input  className="form-control border border-danger"
         name='distanciaX'

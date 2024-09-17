@@ -49,7 +49,7 @@ console.log(unidadFrecuencia)
 
     return(
         <>
-                     <div className="input-group">
+                     <div className="input-group" id="inputs">
                      <span className="input-group-text" id="inputGroup-sizing-sm">Potencia Tx dBm</span>
                      <input 
                      
