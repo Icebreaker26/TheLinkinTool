@@ -2,6 +2,7 @@ import './App.css';
 import axios from "axios";
 import react from "react";
 
+
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -19,6 +20,16 @@ import { Populares } from './componentes/Populares';
 import { CalcularPotenciaRecibida } from './componentes/CalcularPerdida';
 import { Footer } from './componentes/Footer';
 import { Navbar } from './componentes/Navbar';
+import { GrSatellite } from "react-icons/gr";
+import { PiWaveSineDuotone } from "react-icons/pi";
+
+import { MapContainer, TileLayer, useMap, Marker, Popup, Circle,CircleMarker,Polyline, Polygon,Rectangle } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css';
+import L from "leaflet";
+
+
+
+
 
 
 
@@ -54,7 +65,17 @@ function App() {
   const [reset, setReset] = react.useState(false);
   const [errores, setErrores] = react.useState(false);
   const [mensajeError, setMensajeError] = react.useState("");
-
+  const [horizonteRadio, setHorizonteRadio] = react.useState(0);
+  const [potenciaTransmitida, setPotenciaTransmitida] = react.useState();
+  const [gananciaTransmisor, setGananciaTransmisor] = react.useState();
+  const [gananciaReceptor, setGananciaReceptor] = react.useState();
+  const [perdidasAdicionales, setPerdidasAdicionales] =react.useState();
+  const [potenciaRecibida, setPotenciaRecibida] = react.useState();
+  const [coordenadasMapa, setCoordenadasMapa] = react.useState([
+    [4.848398,-75.714645],
+    [4.896642,-75.844992]
+    ]);
+  const [center, setCenter] = react.useState([4.896642,-75.844993]);
 
   const zonaFresnel = (frecuencia,x,y,n,unidadFrecuencia,unidadLongitud) => {
 
@@ -131,8 +152,11 @@ function App() {
 
 }
 
+
 const ejecutar = () =>{
   setRadio(zonaFresnel(frecuencia,x,y,n,unidadFrecuencia,unidadLongitud));
+  CalcularElipsoide();
+
 }
 
   async function createPost() {
@@ -153,9 +177,27 @@ try {
         setPost([...response.data.results]);
     
       });
+      
+      let coords = [
+        [coordenadas[0].latitude, coordenadas[0].longitude],
+        [coordenadas[1].latitude, coordenadas[1].longitude]
+      ]
+
+      let centerLat = Math.abs(coordenadas[0].latitude-coordenadas[1].latitude)/2;
+      centerLat = coordenadas[0].latitude + centerLat;
+
+      let centerLon = Math.abs(coordenadas[0].longitude-coordenadas[1].longitude)/2;
+      centerLon = coordenadas[0].longitude + centerLon;
+
+      let centerCoords = [centerLat,centerLon];
+
+      setCenter(centerCoords);
+
+      setCoordenadasMapa(coords);
 
       setErrores(false);
       setMensajeError("");
+      ejecutar();
 
 
 } catch (error) {
@@ -165,6 +207,14 @@ try {
 }
 
 
+const HorizonteRadio = () =>{
+
+  let HR1 = Math.sqrt(17*alturaAntena1);
+  let HR2 = Math.sqrt(17*alturaAntena2);
+  let HR = HR1 + HR2;
+  setHorizonteRadio(HR);
+
+}
 
 let PuntosMedios = [];
 const NPuntos = 18;
@@ -179,6 +229,9 @@ const calcularPuntos = (lat1,long1,lat2,long2) =>{
 
     let segmentoLatitudes = diferenciaEntreLatitudes/NPuntos;
     let segmentoLongitudes = diferenciaEntreLongitudes/NPuntos;
+
+    
+
 
     for(let i = 0; i<NPuntos;i++){
 
@@ -205,10 +258,14 @@ const calcularPuntos = (lat1,long1,lat2,long2) =>{
     }
 
 
+
   } 
 
 
 calcularPuntos(coordenadas[0].latitude,coordenadas[0].longitude,coordenadas[1].latitude,coordenadas[1].longitude);
+
+
+
 
 //Aqui calculamos la linea de vista basandonos en puntos intermedios entre el punto más alto y el punto mas bajo
 
@@ -243,6 +300,7 @@ const calcularLineaDeVista = () => {
     setLineaDeVista(LineaVision);
     setErrores(false);
     setMensajeError("");
+    HorizonteRadio();
 
 } catch (error) {
 
@@ -264,6 +322,9 @@ const calcularDistanciaEntreDosCoordenadas = (lat1, lon1, lat2, lon2) => {
   let diferenciaEntreLatitudes = (lat2 - lat1);
   let a = Math.pow(Math.sin(diferenciaEntreLatitudes / 2.0), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(diferenciaEntreLongitudes / 2.0), 2);
   let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+
+
   return RADIO_TIERRA_EN_KILOMETROS * c;
 };
 
@@ -306,6 +367,48 @@ try {
     ManejadorErrores(error);
 
   }}
+
+
+  //CALCULOS ATENUACIONES
+
+  const CalcularPotenciaRecibida = ({unidadFrecuencia,distancia, frecuencia}) => {
+   
+    console.log(unidadFrecuencia)
+    try {
+      
+        switch(unidadFrecuencia){
+    
+            case 'GHz':
+            frecuencia *=1000;
+            break;
+      
+            case 'Hz':
+            frecuencia = frecuencia/1000000;
+            break;
+      
+            case 'KHz':
+            frecuencia = frecuencia/1000;
+            break;
+    
+            case 'MHz':
+            break;
+    
+    
+            default:
+      
+          }
+      
+          const perdidaEspacioLibre = 20 * Math.log10(distancia) + 20 * Math.log10(frecuencia) + 32.44;
+    
+    
+        // Cálculo de la potencia recibida
+        const potenciaRecibida = parseFloat(potenciaTransmitida) + parseFloat(gananciaTransmisor) + parseFloat(gananciaReceptor) - parseFloat(perdidaEspacioLibre) - parseFloat(perdidasAdicionales);
+        setPotenciaRecibida(potenciaRecibida);
+      } catch (error) {console.log(error)};
+  }
+
+  
+
   //Desde aqui se resetean todos los estados para reiniciar el grafico y no tener que recargar la pagina
   const RESET = () =>{
       setReset(prev => !prev); // Cambiar el estado para forzar el reinicio del gráfico
@@ -339,7 +442,67 @@ try {
     }
     }
 
-  
+    
+
+    //const center = [4.804218, -75.725051]
+
+      // Define el icono personalizado
+      const customIcon = L.icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/512/718/718378.png", // URL de tu imagen
+        iconSize: [40, 40], // tamaño del icono
+        iconAnchor: [20, 20] // [mitad del ancho, altura completa]
+        //popupAnchor: [100, 100], // posición del popup relativa al icono
+      });
+
+    const polyline = [
+      [51.505, -0.09],  
+      [51.51, -0.1],
+      [51.51, -0.12],
+    ]
+    
+    const multiPolyline = [
+      [
+        [51.5, -0.1],
+        [51.5, -0.12],
+        [51.52, -0.12],
+      ],
+      [
+        [51.5, -0.05],
+        [51.5, -0.06],
+        [51.52, -0.06],
+      ],
+    ]
+    
+    const polygon = [
+      [51.515, -0.09],
+      [51.52, -0.1],
+      [51.52, -0.12],
+    ]
+    
+    const multiPolygon = [
+      [
+        [51.51, -0.12],
+        [51.51, -0.13],
+        [51.53, -0.13],
+      ],
+      [
+        [51.51, -0.05],
+        [51.51, -0.07],
+        [51.53, -0.07],
+      ],
+    ]
+    
+    const rectangle = [
+      [51.49, -0.08],
+      [51.5, -0.06],
+    ]
+    
+    const fillBlueOptions = { fillColor: 'blue' }
+    const blackOptions = { color: 'black' }
+    const limeOptions = { color: 'lime' }
+    const purpleOptions = { color: 'red' }
+    const redOptions = { color: 'red' }
+    
 
 
   ///////////////////////////////// CHART OPTIONS /////////////////////////////////
@@ -464,31 +627,21 @@ var midata = {
 
 
     {errores &&(
-      <div className="alert alert-danger" role="alert" display="false">
+      <div className="alert alert-success" role="alert" display="false">
       
           {mensajeError}
 
       </div>)
     }
+    
+    <div class="row">
+      <div class="col-sm-4">
 
-      <div className="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
+      <div class="card w-100">
+        <h5 class="card-header">Antena Punto A  <GrSatellite/></h5>
+          <div class="card-body">
 
-      <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autocomplete="off" onClick={createPost}/>
-      <label className="btn btn-outline-danger" for="btnradio1">Calcular Mapa</label>
-
-      <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autocomplete="off" onClick={calcularLineaDeVista}/>
-      <label className="btn btn-outline-danger" for="btnradio2">Calcular Linea de vista</label>
-
-      <input type="radio" className="btn-check" name="btnradio" id="btnradio3" autocomplete="off" onClick={CalcularElipsoide}/>
-      <label className="btn btn-outline-danger" for="btnradio3">Calcular Zona Fresnel</label>
-
-      <input type="radio" className="btn-check" name="btnradio" id="btnradio4" autocomplete="off" onClick={RESET}/>
-      <label className="btn btn-outline-danger" for="btnradio4">RESET</label>
-
-      </div>
-                   
-                  <div className="input-group" id='inputs'>
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Latitud A</span>
+          <span class="input-group-text" id="inputGroup-sizing-sm">Latitud A</span>
                     <input 
                     
                     id="inputLatitudAntena1" 
@@ -562,88 +715,45 @@ var midata = {
                         type='text'
                         className='form-control'
                     />
-                    
-                    </div>
-                    <div className="input-group " id='inputs'>
 
-                    <span className="input-group-text" id="inputGroup-sizing-sm">Latitud B</span>
+                      <span className="input-group-text" id="inputGroup-sizing-sm">Potencia Rx dBm</span>
 
-                  <input 
+                      <input 
 
-                    
-                    id="inputLatitudAntena2" 
-                    placeholder="Latitud" 
+                      id="inputAlturaAntena1" 
+                      placeholder="Altura antena 1" 
 
-                        value={ 
-                          coordenadas[1].latitude ? coordenadas[1].latitude : " " 
-                        }
-                        onChange={ (e) => {
-                          // setCoordenadas[0].longitude(e.target.value)
-                           setCoordenadas((prevCoordenadas) => {
-                             // Hacer una copia del array de coordenadas
-                             const newCoordenadas = [...prevCoordenadas];
-                             
-                             // Modificar la longitud de la primera coordenada
-                             newCoordenadas[1] = {
-                               ...newCoordenadas[1], // Hacer una copia del primer objeto de coordenadas
-                               latitude: parseFloat(e.target.value) // Actualizar la longitud
-                             };
-                             
-                             // Devolver el nuevo array de coordenadas actualizado
-                             return newCoordenadas;
-                           })}}
-                         
+                      value={potenciaTransmitida ? potenciaTransmitida:" "}
+                      onChange={ (e) => setPotenciaTransmitida(e.target.value)}
+                      type='text'
+                      className='form-control'
+                      />
+                    <span className="input-group-text" id="inputGroup-sizing-sm">Ganancia Rx dBi</span>
+
+                        <input 
+
+                        id="inputAlturaAntena1" 
+                        placeholder="Ganancia del Transmisor" 
+
+                        value={gananciaTransmisor ? gananciaTransmisor:" "}
+                        onChange={ (e) => setGananciaTransmisor(e.target.value)}
                         type='text'
                         className='form-control'
-                    />
-                      <span className="input-group-text" id="inputGroup-sizing-sm">Longitud B</span>
-
-                <input 
+                        />
                     
-                    id="inputLongitudAntena2" 
-                    placeholder="Longitud" 
 
-                        value={
-                          coordenadas[1].longitude ? coordenadas[1].longitude : " "
-                        }
+      </div>
+      </div>
+      </div>
+    
+      <div class="col-sm-4">
+        <div class="card">    
+        <h5 class="card-header"><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/><PiWaveSineDuotone/></h5>    
 
-                        onChange={ (e) => {
-                          // setCoordenadas[0].longitude(e.target.value)
-                           setCoordenadas((prevCoordenadas) => {
-                             // Hacer una copia del array de coordenadas
-                             const newCoordenadas = [...prevCoordenadas];
-                             
-                             // Modificar la longitud de la primera coordenada
-                             newCoordenadas[1] = {
-                               ...newCoordenadas[1], // Hacer una copia del primer objeto de coordenadas
-                               longitude: parseFloat(e.target.value) // Actualizar la longitud
-                             };
-                             
-                             // Devolver el nuevo array de coordenadas actualizado
-                             return newCoordenadas;
-                           })}}
-                         
-                        type='text'
-                        className='form-control'
-                    />
-                  
-                  <span className="input-group-text" id="inputGroup-sizing-sm">Altura antena B</span>
-
-                 <input 
-                    
-                    id="inputAlturaAntena2" 
-                    placeholder="Altura antena 2" 
-
-                        value={alturaAntena2}
-                        onChange={ (e) => setAlturaAntena2(e.target.value)}
-                        type='text'
-                        className='form-control'
-                    />
-                    </div>
-                    <div className="input-group mb-3" id='inputs'>
+        <div class="card-body">
                     <span className="input-group-text" id="inputGroup-sizing-sm">Frecuencia</span>
-
-                      <input type="text" className="form-control border border-danger"
+                      <div className='input-group mb-3'>
+                      <input type="text" className="form-control border border-secondary w-75 d-inline-flex"
                         name='frecuencia'
                         placeholder={"Frecuencia en Hz"}
                         value={frecuencia}
@@ -651,10 +761,10 @@ var midata = {
                           setFrecuencia(e.target.value)
                           ejecutar()
                         }} 
-                        onKeyUp={ejecutar}
+                        onKeyUp={()=> ejecutar()}
                       />
                       
-                      <select aria-label="Default select example" class="btn btn-outline-secondary dropdown-toggle"
+                      <select aria-label="Default select example" class="btn btn-secondary dropdown-toggle w-25 d-inline-flex"
                       onChange={e => {
                         setUnidadFrecuencia(e.target.value)
                         ejecutar()
@@ -665,82 +775,206 @@ var midata = {
                       <option value="MHz">MHz</option>
                       <option value="GHz">GHz</option>
                       </select>
-
-
-                      <span className="input-group-text" id="inputGroup-sizing-sm">Zona 1,2,3...</span>
-
-                          <input type="text" className="form-control border border-danger" 
-                            name='zona'
-                            placeholder={"# Zona: 1,2,3"}
-                            value={n}
-                            onChange={e=> {
-                              setN(e.target.value)
-                              ejecutar()
-                            }}
-                            onKeyUp={ejecutar}
-                          />
                       </div>
+
+
+                      <label for="customRange3" class="form-label">Zona Fresnel: {n}</label>
+                      <input type="range" class="form-range danger" min="1" max="3" step="1" id="customRange3"
+                                                  value={n}
+                                                  onChange={e=> {
+                                                    setN(e.target.value)
+                                                    ejecutar()
+                                                  }}
+                                                  onKeyUp={ejecutar}
+
+                      ></input>
+
+                      <span className="input-group-text" id="inputGroup-sizing-sm">Horizonte de Radio: {horizonteRadio.toFixed(1)} KM {horizonteRadio>distanciaEnKilometros? "✅":"❌"}</span>
+                      <span className="input-group-text" id="inputGroup-sizing-sm">Perdidas Adicionales dB</span>
+
+                                  <input 
+
+                                  id="inputAlturaAntena1" 
+                                  placeholder="Perdidas adicionales" 
+
+                                  value={perdidasAdicionales ? perdidasAdicionales:" "}
+                                  onChange={ (e) => setPerdidasAdicionales(e.target.value)}
+                                  type='text'
+                                  className='form-control'
+                                  />
+        </div>
+          
+        </div>
+        </div>
+
+
+        <div class="col-sm-4">
+
+          <div class="card w-100">
+            <h5 class="card-header"><GrSatellite style={{ transform:  'scaleX(-1)' }}/>  Antena Punto B</h5>
+              <div class="card-body">
+
+              <span className="input-group-text" id="inputGroup-sizing-sm">Latitud B</span>
+
+                            <input 
+
+                              
+                              id="inputLatitudAntena2" 
+                              placeholder="Latitud" 
+
+                                  value={ 
+                                    coordenadas[1].latitude ? coordenadas[1].latitude : " " 
+                                  }
+                                  onChange={ (e) => {
+                                    // setCoordenadas[0].longitude(e.target.value)
+                                    setCoordenadas((prevCoordenadas) => {
+                                      // Hacer una copia del array de coordenadas
+                                      const newCoordenadas = [...prevCoordenadas];
+                                      
+                                      // Modificar la longitud de la primera coordenada
+                                      newCoordenadas[1] = {
+                                        ...newCoordenadas[1], // Hacer una copia del primer objeto de coordenadas
+                                        latitude: parseFloat(e.target.value) // Actualizar la longitud
+                                      };
+                                      
+                                      // Devolver el nuevo array de coordenadas actualizado
+                                      return newCoordenadas;
+                                    })}}
+                                  
+                                  type='text'
+                                  className='form-control'
+                              />
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Longitud B</span>
+
+                            <input 
+                              
+                              id="inputLongitudAntena2" 
+                              placeholder="Longitud" 
+
+                                  value={
+                                    coordenadas[1].longitude ? coordenadas[1].longitude : " "
+                                  }
+
+                                  onChange={ (e) => {
+                                    // setCoordenadas[0].longitude(e.target.value)
+                                    setCoordenadas((prevCoordenadas) => {
+                                      // Hacer una copia del array de coordenadas
+                                      const newCoordenadas = [...prevCoordenadas];
+                                      
+                                      // Modificar la longitud de la primera coordenada
+                                      newCoordenadas[1] = {
+                                        ...newCoordenadas[1], // Hacer una copia del primer objeto de coordenadas
+                                        longitude: parseFloat(e.target.value) // Actualizar la longitud
+                                      };
+                                      
+                                      // Devolver el nuevo array de coordenadas actualizado
+                                      return newCoordenadas;
+                                    })}}
+                                  
+                                  type='text'
+                                  className='form-control'
+                              />
+
+                            <span className="input-group-text" id="inputGroup-sizing-sm">Altura antena B</span>
+
+                            <input 
+                              
+                              id="inputAlturaAntena2" 
+                              placeholder="Altura antena 2" 
+
+                                  value={alturaAntena2}
+                                  onChange={ (e) => setAlturaAntena2(e.target.value)}
+                                  type='text'
+                                  className='form-control'
+                              />
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Potencia Tx dBm</span>
+
+                                <input 
+
+                                id="inputAlturaAntena1" 
+                                          
+                                placeholder="Potencia Recibida" 
+
+                                value={potenciaRecibida ? potenciaRecibida.toFixed(2) + " dB":" "}
+                                type='text'
+                                className='form-control'
+                                disabled={true}
+                                />
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Ganancia Tx dBi</span>
+
+                                  <input 
+
+                                  id="inputAlturaAntena1" 
+                                  placeholder="Ganancia del receptor" 
+
+                                  value={gananciaReceptor ? gananciaReceptor:" "}
+                                  onChange={ (e) => setGananciaReceptor(e.target.value)}
+                                  type='text'
+                                  className='form-control'
+                                  />
+
+
+              </div>
+          </div>
+          
+        
+        </div>
+
+        
+       
+
+      </div>
+
+      
+      <div class="card">              
+      <div class="card-body">
+
+      <div className="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
+
+      <input type="radio" className="btn-check w-25" name="btnradio" id="btnradio1" autocomplete="off" onClick={createPost}/>
+      <label className="btn btn-outline-danger" for="btnradio1">Mostrar Mapa</label>
+
+      <input type="radio" className="btn-check w-25" name="btnradio" id="btnradio2" autocomplete="off" onClick={calcularLineaDeVista}/>
+      <label className="btn btn-outline-danger" for="btnradio2">Mostrar Linea de vista</label>
+
+      <input type="radio" className="btn-check w-25" name="btnradio" id="btnradio3" autocomplete="off" onClick={CalcularElipsoide}/>
+      <label className="btn btn-outline-danger" for="btnradio3">Mostrar Zona Fresnel</label>
+
+      <input type="radio" className="btn-check w-25" name="btnradio" id="btnradio4" autocomplete="off" onClick={RESET}/>
+      <label className="btn btn-danger" for="btnradio4">RESET</label>
+
+      </div>
+      </div>
+      </div>
+
       <div id='grafico'>
       <Line data={midata} options={misoptions}/>
       </div>
       
-    <div className="input-group w-100" id='inputs'>
-    <span className="input-group-text" id="inputGroup-sizing-sm">Distancia A</span>
-      <input  className="form-control border border-danger"
-        name='distanciaX'
-        placeholder={"Distancia A"}
-        value={x}
-        onChange={e => {
-          setX(e.target.value)
-          ejecutar()
-        }}
-        onKeyUp={ejecutar}
-
-      />
-      <span className="input-group-text" id="inputGroup-sizing-sm">Distancia B</span>
-
-      <input
- className="form-control border border-danger"
-        name='distanciaY'
-        placeholder={"Distancia B"}
-        value={y}
-        onChange={e =>{
-          setY(e.target.value)
-          ejecutar()
-        }}
-        onKeyUp={ejecutar}
-      />
-
-      <select aria-label="Default select example" className="btn btn-outline-secondary dropdown-toggle"
-                          onChange={e => {
-                            setUnidadLongitud(e.target.value)
-                            ejecutar()
-                          }}
-                          onClick={ejecutar}
-                          >
-                          <option value="M">M</option>
-                          <option value="KM">KM</option>
-                          <option value="MILLAS">MILLAS</option>
-                          </select>
-      
-      </div>
-      <p>Distancia A + Distancia B = {distanciaEnKilometros.toFixed(2)*1000} Metros = Distancia Total</p>
-      <h3 id='resultado'>
-        Radio en el punto = {radio.toFixed(2)} Metros
-      </h3>
-    
-      <Populares/>
       <CalcularPotenciaRecibida distancia={distanciaEnKilometros} frecuencia={frecuencia} unidadFrecuencia ={unidadFrecuencia}/>
       
-      <div className="alert alert-success" role="alert" style={{marginTop:"20px"}}>
-                          
-                          <p>¡Pronto estarán disponibles los cálculos para las atenuaciones y la documentación del software con los cálculos matemáticos utilizados…!</p>
-
-      </div>
+      
 
       </div>  
 
-    <Footer/>
+
+            <MapContainer center={center} zoom={11} scrollWheelZoom={true}    style={{ height: '50vh', width: '100wh' }}
+            >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+                      
+                  <Polygon pathOptions={purpleOptions} positions={coordenadasMapa}/>
+                  <Marker position={coordenadasMapa[0]} icon={customIcon}/>
+                  <Marker position={coordenadasMapa[1]} icon={customIcon}/>
+
+
+                  
+          </MapContainer>
+          <Populares/>
+
+          <Footer/>
 
     </>
   );}

@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 
 const CalcularPotenciaRecibida = ({unidadFrecuencia,distancia, frecuencia}) => {
 
@@ -124,5 +124,5 @@ const L = 2;    // Pérdidas adicionales del sistema en dB (cables, conectores)
 
 const Pr = CalcularPotenciaRecibida(Pt, Gt, Gr, d, f, L);
 console.log(`La potencia recibida es: ${Pr.toFixed(2)} dBm`);
-*/
-export{CalcularPotenciaRecibida}
+*//*
+export{CalcularPotenciaRecibida}*/
