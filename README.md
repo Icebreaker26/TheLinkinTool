@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+The Linkin´ Tool 📡📡📡
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Es un software que toma principios de ingenieria de radiopropagación presentes en la Ingenieria de Telecomunicaciones para planear enlaces punto a punto de manera precisa.
 
-## Available Scripts
+¿En que consiste? 🔻
 
-In the project directory, you can run:
+Sección destinada para ingresar las coordenadas y características de los puntos A y B de los enlaces. Los parámetros a ajustar incluyen latitud, longitud, altura de la antena respecto al suelo, potencia de transmisión (Tx) en dBm, y ganancia de la antena Tx en dBi. A partir de estos datos, y considerando la ganancia de recepción (Rx) en dBi, es posible calcular la ganancia de la antena de Rx en dBi.
 
-### `npm start`
+![image](https://github.com/user-attachments/assets/f818c37c-87bc-43c8-8cda-be3e1f6d6057)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+En el apartado central añadimos parametros como la Frecuencia, la zona de fresnel a calcular (1,2,3...) y las perdidas adicionales que podemos inferir en el sistema (atenuaciones por condiciones del sitio, proximamente se podrá calcular de forma automatizada) y nos permite calcular la distancia maxima entre ambas antenas de acuerdo a los parametros del horizonte de radio.
+![image](https://github.com/user-attachments/assets/d945b7cd-469f-4d8c-9f0f-a45a363cac70)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Estos botones nos permiten ejecutar diferentes acciones las cuales podemos dividir:
 
-### `npm test`
+📌Mostrar Mapa: Calcula puntos intermedios entre ambas coordenadas y los grafica en función de su elevación.
+📌Mostrar Linea de Vista: Calcula una linea recta entre ambas antenas teniendo en cuenta la altura sumistrada y nos permite evaluar de manera visual si existe alguna interferencia en el terreno.
+📌Mostrar Zona de Fresnel: Calcula el radio de la zona de fresnel para cada punto de la linea de vista para determinar si nuestro enlace podrá operar en condiciones optimas o tendremos atenuaciones a causa de interferencias del terreno. 
+📌Reset: Nos permite eliminar los datos de nuestra grafica.
+![image](https://github.com/user-attachments/assets/603b2b8a-6c23-482e-b455-a9a41a1253f7)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🗺📍 Grafico
 
-### `npm run build`
+Podemos identificar en este ejemplo tres series de datos:
+🔹Puntos de elevación del terreno entre coordenadas A y B.
+🔹Puntos de linea de vista entre A y B.
+🔹un Elipse correspondiente al radio de la zona de fresnel para cada punto de la linea de vista. (en el ejemplo se toma una frecuencia de 7 MHz).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![image](https://github.com/user-attachments/assets/b5ae9d5b-8a43-4490-b873-422063726cff)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+🎯🔰 Mapa
+Nos permite visualizar en el mapa la ubicación de ambas antenas (tenemos que proporcionar latitud y longitud de cada una en el primer apartado) en el terreno y su linea de vista.
+![image](https://github.com/user-attachments/assets/e7550033-401a-4761-868d-62a3d910e3a1)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+🛠🟡Coordenadas de ejemplo
+En esta tabla se referencian algunos puntos arbitrarios en la región de Risaralda y Caldas para la ubicación de antenas para testear enlaces entre ellos.
+![image](https://github.com/user-attachments/assets/43139af3-7574-471b-8302-72e6f5ceaa08)
 
-### `npm run eject`
+Desarrollado por Alejandro Torres - Icebreaker26 septiembre 2024 - Universidad Católica de Pereira - Ingenieria de Sistemas y Telecomunicaciones
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Proximamente apartado matematico ⬇
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
