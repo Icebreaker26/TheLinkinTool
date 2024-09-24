@@ -42,6 +42,7 @@ En esta tabla se referencian algunos puntos arbitrarios en la región de Risaral
 💻⚙📡 Detalles Tecnicos.
 
 Desarrollado con tecnologia de React JS - Create React App
+
 ![image](https://github.com/user-attachments/assets/782b6b1c-8aab-4526-83a9-33dfcb4608bc)
 
 📚Librerias: 
