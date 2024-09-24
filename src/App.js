@@ -827,7 +827,7 @@ var midata = {
                                           
                                 placeholder="Potencia Recibida" 
 
-                                value={potenciaRecibida ? potenciaRecibida.toFixed(2) + " dBi":" "}
+                                value={potenciaRecibida ? potenciaRecibida.toFixed(2) + " dBm":" "}
                                 type='text'
                                 className='form-control'
                                 disabled={true}
