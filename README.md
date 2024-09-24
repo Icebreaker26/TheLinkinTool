@@ -24,9 +24,9 @@ Estos botones nos permiten ejecutar diversas acciones, que se pueden dividir en 
 
 En este ejemplo podemos identificar tres series de datos:
 
-🔹 Puntos de elevación del terreno entre las coordenadas A y B.
-🔹 Puntos de la línea de vista entre A y B.
-🔹 Una elipse que representa el radio de la zona de Fresnel para cada punto de la línea de vista (en el ejemplo se usa una frecuencia de 7 MHz).
+🔹 Puntos de elevación del terreno entre las coordenadas A y B. <br>
+🔹 Puntos de la línea de vista entre A y B. <br>
+🔹 Una elipse que representa el radio de la zona de Fresnel para cada punto de la línea de vista (en el ejemplo se usa una frecuencia de 7 MHz). <br>
 
 ![image](https://github.com/user-attachments/assets/b5ae9d5b-8a43-4490-b873-422063726cff)
 
