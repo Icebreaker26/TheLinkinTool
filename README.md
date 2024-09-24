@@ -61,6 +61,8 @@ Desarrollado con tecnologia de React JS - Create React App
 
 ![image](https://github.com/user-attachments/assets/67ec6f5b-c9ba-4a85-b16a-e5834818e8df)
 
+🛠Para realizar calculos independientes recomiendo mi calculadora de fresnel: https://icebreaker26.github.io/zonafresnel/
+
 🏴‍☠️Calculo del semiverseno (calcula la distancia entre dos coordenadas dado que la tierra es esferica):
 
 ![image](https://github.com/user-attachments/assets/9359928f-1802-41d7-b485-904ab30381af)
