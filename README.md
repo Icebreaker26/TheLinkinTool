@@ -14,7 +14,7 @@ En la sección central se añaden parámetros como la frecuencia, la zona de Fre
 
 Estos botones nos permiten ejecutar diversas acciones, que se pueden dividir en las siguientes funciones:
 
-📌 Mostrar Mapa: Calcula los puntos intermedios entre ambas coordenadas y los grafica según la elevación del terreno.
+📌 Mostrar Mapa: Calcula los puntos intermedios entre ambas coordenadas y los grafica según la elevación del terreno. <br>
 📌 Mostrar Línea de Vista: Traza una línea recta entre ambas antenas considerando la altura proporcionada, lo que permite evaluar visualmente si existen interferencias en el terreno.
 📌 Mostrar Zona de Fresnel: Calcula el radio de la zona de Fresnel para cada punto de la línea de vista, con el fin de determinar si el enlace operará en condiciones óptimas o si se presentarán atenuaciones debido a interferencias en el terreno.
 📌 Reset: Permite borrar los datos del gráfico.
