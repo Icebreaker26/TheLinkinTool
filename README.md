@@ -4,11 +4,12 @@ Es un software que toma principios de ingenieria de radiopropagación presentes 
 
 ¿En que consiste? 🔻
 
-Sección destinada para ingresar las coordenadas y características de los puntos A y B de los enlaces. Los parámetros a ajustar incluyen latitud, longitud, altura de la antena respecto al suelo, potencia de transmisión (Tx) en dBm, y ganancia de la antena Tx en dBi. A partir de estos datos, y considerando la ganancia de recepción (Rx) en dBi, es posible calcular la ganancia de la antena de Rx en dBi.
+Sección destinada para ingresar las coordenadas y características de los puntos A y B de los enlaces. Los parámetros a ajustar incluyen latitud, longitud, altura de la antena respecto al suelo, potencia de transmisión (Tx) en dBm, y ganancia de la antena Tx en dBi. A partir de estos datos, y considerando la ganancia de recepción (Rx) en dBi, es posible calcular la potencia recibida por la antena de Rx en dBm.
 
 ![image](https://github.com/user-attachments/assets/f818c37c-87bc-43c8-8cda-be3e1f6d6057)
 
 En el apartado central añadimos parametros como la Frecuencia, la zona de fresnel a calcular (1,2,3...) y las perdidas adicionales que podemos inferir en el sistema (atenuaciones por condiciones del sitio, proximamente se podrá calcular de forma automatizada) y nos permite calcular la distancia maxima entre ambas antenas de acuerdo a los parametros del horizonte de radio.
+
 ![image](https://github.com/user-attachments/assets/d945b7cd-469f-4d8c-9f0f-a45a363cac70)
 
 Estos botones nos permiten ejecutar diferentes acciones las cuales podemos dividir:
