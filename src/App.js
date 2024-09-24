@@ -1,8 +1,6 @@
 import './App.css';
 import axios from "axios";
 import react from "react";
-
-
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -17,25 +15,18 @@ import {
     LineElement,
 } from 'chart.js';
 import { Populares } from './componentes/Populares';
-import { CalcularPotenciaRecibida } from './componentes/CalcularPerdida';
 import { Footer } from './componentes/Footer';
 import { Navbar } from './componentes/Navbar';
 import { GrSatellite } from "react-icons/gr";
 import { PiWaveSineDuotone } from "react-icons/pi";
-
-import { MapContainer, TileLayer, useMap, Marker, Popup, Circle,CircleMarker,Polyline, Polygon,Rectangle } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Polygon } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import L from "leaflet";
 
 
 
-
-
-
-
 function App() {
 
-  /*const baseURL = "https://jsonplaceholder.typicode.com/posts";*/
   const baseURL = "https://api.open-elevation.com/api/v1/lookup";
 
   const [post, setPost] = react.useState([]);
@@ -52,8 +43,6 @@ function App() {
     "longitude": -75.844992
   }
   ])
-
-
   const [frecuencia,setFrecuencia] = react.useState();
   const [x,setX] = react.useState();
   const [y,setY] = react.useState();
@@ -161,8 +150,8 @@ const ejecutar = () =>{
 
   async function createPost() {
 
-    
     console.log(coordenadas)
+
 try {
   
   await axios.post(baseURL,
@@ -206,7 +195,6 @@ try {
     
 }
 
-
 const HorizonteRadio = () =>{
 
   let HR1 = Math.sqrt(17*alturaAntena1);
@@ -229,8 +217,6 @@ const calcularPuntos = (lat1,long1,lat2,long2) =>{
 
     let segmentoLatitudes = diferenciaEntreLatitudes/NPuntos;
     let segmentoLongitudes = diferenciaEntreLongitudes/NPuntos;
-
-    
 
 
     for(let i = 0; i<NPuntos;i++){
@@ -263,8 +249,6 @@ const calcularPuntos = (lat1,long1,lat2,long2) =>{
 
 
 calcularPuntos(coordenadas[0].latitude,coordenadas[0].longitude,coordenadas[1].latitude,coordenadas[1].longitude);
-
-
 
 
 //Aqui calculamos la linea de vista basandonos en puntos intermedios entre el punto más alto y el punto mas bajo
@@ -322,8 +306,6 @@ const calcularDistanciaEntreDosCoordenadas = (lat1, lon1, lat2, lon2) => {
   let diferenciaEntreLatitudes = (lat2 - lat1);
   let a = Math.pow(Math.sin(diferenciaEntreLatitudes / 2.0), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(diferenciaEntreLongitudes / 2.0), 2);
   let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-
 
   return RADIO_TIERRA_EN_KILOMETROS * c;
 };
@@ -443,9 +425,6 @@ try {
     }
 
     
-
-    //const center = [4.804218, -75.725051]
-
       // Define el icono personalizado
       const customIcon = L.icon({
         iconUrl: "https://cdn-icons-png.flaticon.com/512/718/718378.png", // URL de tu imagen
@@ -454,56 +433,9 @@ try {
         //popupAnchor: [100, 100], // posición del popup relativa al icono
       });
 
-    const polyline = [
-      [51.505, -0.09],  
-      [51.51, -0.1],
-      [51.51, -0.12],
-    ]
-    
-    const multiPolyline = [
-      [
-        [51.5, -0.1],
-        [51.5, -0.12],
-        [51.52, -0.12],
-      ],
-      [
-        [51.5, -0.05],
-        [51.5, -0.06],
-        [51.52, -0.06],
-      ],
-    ]
-    
-    const polygon = [
-      [51.515, -0.09],
-      [51.52, -0.1],
-      [51.52, -0.12],
-    ]
-    
-    const multiPolygon = [
-      [
-        [51.51, -0.12],
-        [51.51, -0.13],
-        [51.53, -0.13],
-      ],
-      [
-        [51.51, -0.05],
-        [51.51, -0.07],
-        [51.53, -0.07],
-      ],
-    ]
-    
-    const rectangle = [
-      [51.49, -0.08],
-      [51.5, -0.06],
-    ]
-    
-    const fillBlueOptions = { fillColor: 'blue' }
-    const blackOptions = { color: 'black' }
-    const limeOptions = { color: 'lime' }
+        
     const purpleOptions = { color: 'red' }
-    const redOptions = { color: 'red' }
     
-
 
   ///////////////////////////////// CHART OPTIONS /////////////////////////////////
 
@@ -716,7 +648,7 @@ var midata = {
                         className='form-control'
                     />
 
-                      <span className="input-group-text" id="inputGroup-sizing-sm">Potencia Rx dBm</span>
+                      <span className="input-group-text" id="inputGroup-sizing-sm">Potencia Tx dBm</span>
 
                       <input 
 
@@ -728,7 +660,7 @@ var midata = {
                       type='text'
                       className='form-control'
                       />
-                    <span className="input-group-text" id="inputGroup-sizing-sm">Ganancia Rx dBi</span>
+                    <span className="input-group-text" id="inputGroup-sizing-sm">Ganancia Tx dBi</span>
 
                         <input 
 
@@ -887,7 +819,7 @@ var midata = {
                                   type='text'
                                   className='form-control'
                               />
-                                <span className="input-group-text" id="inputGroup-sizing-sm">Potencia Tx dBm</span>
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Potencia Rx dBm</span>
 
                                 <input 
 
@@ -895,12 +827,12 @@ var midata = {
                                           
                                 placeholder="Potencia Recibida" 
 
-                                value={potenciaRecibida ? potenciaRecibida.toFixed(2) + " dB":" "}
+                                value={potenciaRecibida ? potenciaRecibida.toFixed(2) + " dBi":" "}
                                 type='text'
                                 className='form-control'
                                 disabled={true}
                                 />
-                                <span className="input-group-text" id="inputGroup-sizing-sm">Ganancia Tx dBi</span>
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Ganancia Rx dBi</span>
 
                                   <input 
 
