@@ -12,7 +12,7 @@ En la sección central se añaden parámetros como la frecuencia, la zona de Fre
 
 ![image](https://github.com/user-attachments/assets/d945b7cd-469f-4d8c-9f0f-a45a363cac70)
 
-Estos botones nos permiten ejecutar diversas acciones, que se pueden dividir en las siguientes funciones:
+Estos botones nos permiten ejecutar diversas acciones, que se pueden dividir en las siguientes funciones: <br>
 
 📌 Mostrar Mapa: Calcula los puntos intermedios entre ambas coordenadas y los grafica según la elevación del terreno. <br>
 📌 Mostrar Línea de Vista: Traza una línea recta entre ambas antenas considerando la altura proporcionada, lo que permite evaluar visualmente si existen interferencias en el terreno.<br>
@@ -20,7 +20,7 @@ Estos botones nos permiten ejecutar diversas acciones, que se pueden dividir en 
 📌 Reset: Permite borrar los datos del gráfico.<br>
 ![image](https://github.com/user-attachments/assets/603b2b8a-6c23-482e-b455-a9a41a1253f7)
 
-🗺📍 Grafico
+🗺📍 Grafico <br>
 
 En este ejemplo podemos identificar tres series de datos:
 
@@ -30,16 +30,16 @@ En este ejemplo podemos identificar tres series de datos:
 
 ![image](https://github.com/user-attachments/assets/b5ae9d5b-8a43-4490-b873-422063726cff)
 
-🎯🔰 Mapa
+🎯🔰 Mapa <br>
 Permite visualizar en el mapa la ubicación de ambas antenas (para lo cual es necesario proporcionar la latitud y longitud de cada una en el primer apartado), así como su línea de vista sobre el terreno.
 
 ![image](https://github.com/user-attachments/assets/e7550033-401a-4761-868d-62a3d910e3a1)
 
-🛠🟡Coordenadas de ejemplo
+🛠🟡Coordenadas de ejemplo<br>
 En esta tabla se referencian algunos puntos arbitrarios en la región de Risaralda y Caldas para la ubicación de antenas para testear enlaces entre ellos.
 ![image](https://github.com/user-attachments/assets/43139af3-7574-471b-8302-72e6f5ceaa08)
 
-💻⚙📡 Detalles Tecnicos.
+💻⚙📡 Detalles Tecnicos.<br>
 
 Desarrollado con tecnologia de React JS - Create React App
 
