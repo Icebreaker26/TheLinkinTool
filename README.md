@@ -1,8 +1,8 @@
-The Linkin´ Tool 📡📡📡
+# The Linkin´ Tool 📡📡📡
 
 Es un software que aplica principios de ingeniería de radiopropagación, propios de la Ingeniería de Telecomunicaciones, para planificar enlaces punto a punto con precisión.
 
-¿En que consiste? 🔻
+## ¿En que consiste? 🔻
 
 Sección destinada para ingresar las coordenadas y características de los puntos A y B de los enlaces. Los parámetros a ajustar incluyen latitud, longitud, altura de la antena respecto al suelo, potencia de transmisión (Tx) en dBm, y ganancia de la antena Tx en dBi. A partir de estos datos, y considerando la ganancia de recepción (Rx) en dBi, es posible calcular la potencia recibida por la antena de Rx en dBm.
 
@@ -20,7 +20,7 @@ Estos botones nos permiten ejecutar diversas acciones, que se pueden dividir en 
 📌 Reset: Permite borrar los datos del gráfico.<br>
 ![image](https://github.com/user-attachments/assets/603b2b8a-6c23-482e-b455-a9a41a1253f7)
 
-🗺📍 Grafico <br>
+## 🗺📍 Grafico <br>
 
 En este ejemplo podemos identificar tres series de datos:
 
@@ -30,7 +30,7 @@ En este ejemplo podemos identificar tres series de datos:
 
 ![image](https://github.com/user-attachments/assets/b5ae9d5b-8a43-4490-b873-422063726cff)
 
-🎯🔰 Mapa <br>
+## 🎯🔰 Mapa <br>
 Permite visualizar en el mapa la ubicación de ambas antenas (para lo cual es necesario proporcionar la latitud y longitud de cada una en el primer apartado), así como su línea de vista sobre el terreno.
 
 ![image](https://github.com/user-attachments/assets/e7550033-401a-4761-868d-62a3d910e3a1)
@@ -39,13 +39,13 @@ Permite visualizar en el mapa la ubicación de ambas antenas (para lo cual es ne
 En esta tabla se referencian algunos puntos arbitrarios en la región de Risaralda y Caldas para la ubicación de antenas para testear enlaces entre ellos.
 ![image](https://github.com/user-attachments/assets/43139af3-7574-471b-8302-72e6f5ceaa08)
 
-💻⚙📡 Detalles Tecnicos.<br>
+# 💻⚙📡 Detalles Tecnicos.<br>
 
 Desarrollado con tecnologia de React JS - Create React App
 
 ![image](https://github.com/user-attachments/assets/782b6b1c-8aab-4526-83a9-33dfcb4608bc)
 
-📚Librerias: 
+## 📚Librerias: 
 
 🎴ChartJS para la elaboración de los graficos.
 
@@ -55,23 +55,23 @@ Desarrollado con tecnologia de React JS - Create React App
 
 ![image](https://github.com/user-attachments/assets/e56d14b6-bfee-4e62-a472-58ca3f50e2d4)
 
-📓📊Conceptos matemáticos y fisicos relevantes para la ingenieria de Telecomunicaciones e ingenieria de RadioPropagación: 
+# 📓📊Conceptos matemáticos y fisicos relevantes para la ingenieria de Telecomunicaciones e ingenieria de RadioPropagación: 
 
-🏴‍☠️ Radio Zona de Fresnel:
+## 🏴‍☠️ Radio Zona de Fresnel:
 
 ![image](https://github.com/user-attachments/assets/67ec6f5b-c9ba-4a85-b16a-e5834818e8df)
 
-🛠Para realizar calculos independientes recomiendo mi calculadora de fresnel: https://icebreaker26.github.io/zonafresnel/
+### 🛠Para realizar calculos independientes recomiendo mi calculadora de fresnel: https://icebreaker26.github.io/zonafresnel/
 
-🏴‍☠️Calculo del semiverseno (calcula la distancia entre dos coordenadas dado que la tierra es esferica):
+## 🏴‍☠️Calculo del semiverseno (calcula la distancia entre dos coordenadas dado que la tierra es esferica):
 
 ![image](https://github.com/user-attachments/assets/9359928f-1802-41d7-b485-904ab30381af)
 
-🏴‍☠️Pérdida de trayectoria en espacio libre (Lp):
+## 🏴‍☠️Pérdida de trayectoria en espacio libre (Lp):
 
 ![image](https://github.com/user-attachments/assets/1dc5e2a9-32d6-457d-a87b-d8ac773bfeb7)
 
-🏴‍☠️Horizonte de radio (distancia maxima entre dos antenas):
+## 🏴‍☠️Horizonte de radio (distancia maxima entre dos antenas):
 
 ![image](https://github.com/user-attachments/assets/05a5e2ae-2e1f-4593-829a-f4434b45ad9b)
 
