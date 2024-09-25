@@ -432,19 +432,19 @@ try {
 
         return `---`;
 
-      }else if(potencia <= 0 && potencia <= -30) {
+      }else if(potencia <= 0 && potencia >= -30) {
 
         return `${potencia} dBm EXCELENTE`;
 
-      } else if (potencia >= -31 && potencia <= -60) {
+      } else if (potencia <= -31 && potencia >= -60) {
 
         return `${potencia} dBm Muy Buena`;
 
-      }else if(potencia >= -61 && potencia <= -80){
+      }else if(potencia <= -61 && potencia >= -80){
 
         return `${potencia} dBm Aceptable`;
 
-      }else if(potencia >= -81 && potencia <= -100){
+      }else if(potencia <= -81 && potencia >= -100){
 
       return `${potencia} dBm Debil`;
 
