@@ -424,6 +424,44 @@ try {
     }
     }
 
+    const obtenerCalidad = (valor) =>{
+
+      const potencia = parseFloat(valor).toFixed(2);
+
+      if(isNaN(potencia)){
+
+        return `---`;
+
+      }else if(potencia <= 0 && potencia <= -30) {
+
+        return `${potencia} dBm EXCELENTE`;
+
+      } else if (potencia >= -31 && potencia <= -60) {
+
+        return `${potencia} dBm Muy Buena`;
+
+      }else if(potencia >= -61 && potencia <= -80){
+
+        return `${potencia} dBm Aceptable`;
+
+      }else if(potencia >= -81 && potencia <= -100){
+
+      return `${potencia} dBm Debil`;
+
+     }else if(potencia <= -100){
+
+      return `${potencia} dBm Muy debil`;
+
+    }else {
+
+        return `${potencia} dBm`; // Si no entra en las condiciones, solo se muestra el valor
+
+      }
+
+
+
+    }
+
     
       // Define el icono personalizado
       const customIcon = L.icon({
@@ -827,7 +865,8 @@ var midata = {
                                           
                                 placeholder="Potencia Recibida" 
 
-                                value={potenciaRecibida ? potenciaRecibida.toFixed(2) + " dBm":" "}
+                                //value={potenciaRecibida ? potenciaRecibida.toFixed(2) + " dBm":" "}
+                                value={obtenerCalidad(potenciaRecibida)}
                                 type='text'
                                 className='form-control'
                                 disabled={true}
